@@ -11,6 +11,8 @@
         <constructor-arg name="dataSource" ref="dataSource"/>
     </bean>
 
+    <context:component-scan base-package="ru.javawebinar.**.repository.jdbc"/>
+
     <!--no pooling-->
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
