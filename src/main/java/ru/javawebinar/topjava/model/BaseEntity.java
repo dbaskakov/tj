@@ -1,11 +1,18 @@
 package ru.javawebinar.topjava.model;
 
+import javax.persistence.*;
+
+@MappedSuperclass
+@Access(AccessType.FIELD)
 public class BaseEntity {
     public static final int START_SEQ = 100000;
 
+    @Id
+    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     protected Integer id;
 
-    public BaseEntity() {
+    protected BaseEntity() {
     }
 
     protected BaseEntity(Integer id) {
@@ -25,11 +32,6 @@ public class BaseEntity {
     }
 
     @Override
-    public String toString() {
-        return String.format("Entity %s (%s)", getClass().getName(), getId());
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -46,4 +48,8 @@ public class BaseEntity {
         return id == null ? 0 : id;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Entity %s (%s)", getClass().getName(), id);
+    }
 }
