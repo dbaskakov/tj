@@ -1,16 +1,38 @@
 package ru.javawebinar.topjava.model;
 
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+@Entity
+@Table(name="meals", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "meals_unique_user_datetime_idx")})
+@NamedQueries({
+        @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id and m.user.id=:userId"),
+        @NamedQuery(name = Meal.GET, query = "select m FROM Meal m WHERE m.id=:id and m.user.id=:userId"),
+        @NamedQuery(name = Meal.GETALL, query = "SELECT m FROM Meal m WHERE m.user.id=:userId ORDER BY m.dateTime DESC "),
+        @NamedQuery(name = Meal.GETBETWEEN, query = "SELECT m FROM Meal m WHERE m.user.id=:userId and m.dateTime BETWEEN :startDate and :endDate ORDER BY m.dateTime DESC ")
+})
 public class Meal extends BaseEntity {
+
+    public static final String DELETE="DELETE";
+    public static final String GET = "GET";
+    public static final String GETALL = "GETALL";
+    public static final String GETBETWEEN="GetBetween";
+    //    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @NotNull
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
 
+    @Column(name = "description")
+    @NotNull
     private String description;
 
+    @Column(name = "calories")
+    @NotNull
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)
