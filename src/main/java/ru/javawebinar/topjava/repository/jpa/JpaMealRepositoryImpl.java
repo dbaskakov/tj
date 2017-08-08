@@ -1,21 +1,20 @@
 package ru.javawebinar.topjava.repository.jpa;
 
 import org.springframework.dao.support.DataAccessUtils;
-import org.springframework.jdbc.datasource.DataSourceUtils;
+
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
+@Transactional(readOnly = true)
 public class JpaMealRepositoryImpl implements MealRepository {
 
     @PersistenceContext
