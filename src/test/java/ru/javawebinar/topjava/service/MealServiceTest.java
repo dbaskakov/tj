@@ -33,6 +33,8 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
+    private static final Logger LOG = LoggerFactory.getLogger(MealServiceTest.class);
+    private static StringBuilder results = new StringBuilder();
 
     private static final Logger logger = LoggerFactory.getLogger(MealServiceTest.class);
 
@@ -42,41 +44,38 @@ public class MealServiceTest {
                 testName, status, TimeUnit.NANOSECONDS.toMillis(nanos)));
     }
 
-    @Rule
-    public Stopwatch stopwatch = new Stopwatch() {
-        @Override
-        protected void succeeded(long nanos, Description description) {
-            logInfo(description, "succeeded", nanos);
-            System.out.println("================================");
-            System.out.println(nanos/1000000);
-            System.out.println("================================");
-        }
-
-        @Override
-        protected void failed(long nanos, Throwable e, Description description) {
-            logInfo(description, "failed", nanos);
-        }
-
-        @Override
-        protected void skipped(long nanos, AssumptionViolatedException e, Description description) {
-            logInfo(description, "skipped", nanos);
-        }
-
-        @Override
-        protected void finished(long nanos, Description description) {
-            logInfo(description, "finished", nanos);
-        }
-    };
     @Test
     public void succeeds() {
 
     }
 
-    @Rule
-    public final ExpectedException thrown = ExpectedException.none();
 
     static {
+        // needed only for java.util.logging (postgres driver)
         SLF4JBridgeHandler.install();
+    }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Rule
+    // http://stackoverflow.com/questions/14892125/what-is-the-best-practice-to-determine-the-execution-time-of-the-bussiness-relev
+    public Stopwatch stopwatch = new Stopwatch() {
+        @Override
+        protected void finished(long nanos, Description description) {
+            String result = String.format("%-25s %7d", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
+            results.append(result).append('\n');
+            LOG.info(result + " ms\n");
+        }
+    };
+
+    @AfterClass
+    public static void printResult() {
+        LOG.info("\n---------------------------------" +
+                "\nTest                 Duration, ms" +
+                "\n---------------------------------\n" +
+                results +
+                "---------------------------------\n");
     }
 
     @Autowired
@@ -135,6 +134,8 @@ public class MealServiceTest {
     @Test
     public void testGetBetween() throws Exception {
         MATCHER.assertCollectionEquals(Arrays.asList(MEAL3, MEAL2, MEAL1),
-                service.getBetweenDates(LocalDate.of(2015, Month.MAY, 30), LocalDate.of(2015, Month.MAY, 30), USER_ID));
+                service.getBetweenDates(
+                        LocalDate.of(2015, Month.MAY, 30),
+                        LocalDate.of(2015, Month.MAY, 30), USER_ID));
     }
 }
