@@ -11,4 +11,6 @@ import java.util.List;
 public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     @Override
     List<Meal> findAll(Sort sort);
+
+    List<Meal> findAllByUserId(Sort sort,int id);
 }

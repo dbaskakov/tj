@@ -33,7 +33,7 @@ public class DataJpaMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<Meal> getAll(int userId) {
-        return crudRepository.findAll(SORT_DATIME);
+        return crudRepository.findAllByUserId(SORT_DATIME,userId);
     }
 
     @Override
