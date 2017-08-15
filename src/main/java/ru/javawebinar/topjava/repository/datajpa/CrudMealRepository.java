@@ -17,15 +17,17 @@ public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
     @Override
     Meal save(Meal meal);
 
-    Meal getByUserIdAndId(int userId,int id);
+    Meal getByUserIdAndId(int userId, int id);
 
-    List<Meal> findAllByUserIdOrderByDateTimeDesc(int userId,Sort sort);
+    List<Meal> findAllByUserIdOrderByDateTimeDesc(int userId, Sort sort);
 
     @Transactional
-    int deleteByUserIdAndId(int userId,int id);
+    int deleteByUserIdAndId(int userId, int id);
 
-    List<Meal> getByUserIdAndDateTimeBetweenOrderByDateTimeDesc(int userId, LocalDateTime startDate,LocalDateTime endDate);
+    List<Meal> getByUserIdAndDateTimeBetweenOrderByDateTimeDesc(int userId, LocalDateTime startDate, LocalDateTime endDate);
 
-    @Query("SELECT m from Meal m left join FETCH m.user where m.id=:id")
-    Meal getMealWithUser(@Param("id") int id);
+
+//        @Query("SELECT m from Meal m where m.id=:id and m.user.id=:userId")
+    @Query("SELECT m from Meal m left join FETCH m.user where m.id=:id and m.user.id=:userId")
+    Meal getMealWithUser(@Param("id") int id,@Param("userId")int userId);
 }
