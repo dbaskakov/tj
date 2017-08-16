@@ -31,5 +31,6 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     User getByEmail(String email);
 
     @Query("SELECT u from User u JOIN FETCH u.mealList where u.id=:userId")
+//    @Query("SELECT u from User u  where u.id=:userId")
     User  getWithMeals(@Param("userId") int userId);
 }
