@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <html>
+<base href="${pageContext.request.contextPath}/"/>
 <head>
     <title>Meal</title>
     <link rel="stylesheet" href="css/style.css">
