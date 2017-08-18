@@ -7,7 +7,7 @@
 <base href="${pageContext.request.contextPath}/"/>
 <head>
     <title>Calories management</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css"/>
 </head>
 <body>
 <section>
