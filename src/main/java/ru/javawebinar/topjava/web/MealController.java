@@ -1,12 +1,10 @@
 package ru.javawebinar.topjava.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.web.meal.MealRestController;
@@ -80,13 +78,23 @@ public class MealController extends MealRestController {
     }
 
 
+//    @PostMapping(value = "/filter")
+//    public String filter(Model model,HttpServletRequest request)
+//    {
+//        LocalDate startDate = parseLocalDate(request.getParameter("startDate"));
+//        LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
+//        LocalTime startTime = parseLocalTime(request.getParameter("startTime"));
+//        LocalTime endTime = parseLocalTime(request.getParameter("endTime"));
+//        model.addAttribute("meals",getBetween(startDate, startTime, endDate, endTime));
+//        return "meals";
+//    }
     @PostMapping(value = "/filter")
-    public String filter(Model model,HttpServletRequest request)
+    public String filter(Model model,
+                         @RequestParam(name = "startDate",required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate startDate,
+                         @RequestParam(name = "endDate",required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate endDate,
+                         @RequestParam(name = "startTime",required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)LocalTime startTime,
+                         @RequestParam(name = "endTime",required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)LocalTime endTime)
     {
-        LocalDate startDate = parseLocalDate(request.getParameter("startDate"));
-        LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
-        LocalTime startTime = parseLocalTime(request.getParameter("startTime"));
-        LocalTime endTime = parseLocalTime(request.getParameter("endTime"));
         model.addAttribute("meals",getBetween(startDate, startTime, endDate, endTime));
         return "meals";
     }
