@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://topjava.javawebinar.ru/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
-<base href="${pageContext.request.contextPath}/"/>
+<base href="${pageContext.request.contextPath}/">
 <head>
     <title>Calories management</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/style.css"/>

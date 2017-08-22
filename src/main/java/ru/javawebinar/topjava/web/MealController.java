@@ -58,8 +58,7 @@ public class MealController extends MealRestController {
     public String delete(Model model,@PathVariable("id") int id)
     {
         delete(id);
-        model.addAttribute("meals",getAll());
-        return "meals";
+        return "redirect:/meals";
     }
 
     @PostMapping
