@@ -47,14 +47,14 @@ public class MealController extends MealRestController {
         return "mealForm";
     }
 
-    @GetMapping(value = "/update={id}")
+    @GetMapping(value = "/update/{id}")
     public String update(Model model, @PathVariable("id") int id)
     {
         model.addAttribute("meal",get(id));
         return "mealForm";
     }
 
-    @GetMapping(value = "/delete={id}")
+    @GetMapping(value = "/delete/{id}")
     public String delete(Model model,@PathVariable("id") int id)
     {
         delete(id);
