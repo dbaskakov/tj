@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +13,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-
-import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalDate;
-import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 
 /**
  * Created by d.baskakov on 17.08.2017.
@@ -55,9 +51,9 @@ public class MealController extends MealRestController {
     }
 
     @GetMapping(value = "/delete/{id}")
-    public String delete(Model model,@PathVariable("id") int id)
+    public String delete1(@PathVariable("id") int id)
     {
-        delete(id);
+        super.delete(id);
         return "redirect:/meals";
     }
 
