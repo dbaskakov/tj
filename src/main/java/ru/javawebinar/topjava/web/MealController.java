@@ -57,17 +57,28 @@ public class MealController extends MealRestController {
         return "redirect:/meals";
     }
 
+//    @PostMapping
+//    public String save(HttpServletRequest request)
+//    {
+//        Meal meal = new Meal(
+//                LocalDateTime.parse(request.getParameter("dateTime")),
+//                request.getParameter("description"),
+//                Integer.parseInt(request.getParameter("calories")));
+//        if (request.getParameter("id").isEmpty()) {
+//           create(meal);
+//        } else {
+//            update(meal,Integer.parseInt(request.getParameter("id")));
+//        }
+//        return "redirect:meals";
+//    }
+
     @PostMapping
-    public String save(HttpServletRequest request)
+    public String save(@ModelAttribute Meal meal)
     {
-        Meal meal = new Meal(
-                LocalDateTime.parse(request.getParameter("dateTime")),
-                request.getParameter("description"),
-                Integer.parseInt(request.getParameter("calories")));
-        if (request.getParameter("id").isEmpty()) {
+        if (meal.getId()==null) {
            create(meal);
         } else {
-            update(meal,Integer.parseInt(request.getParameter("id")));
+            update(meal,meal.getId());
         }
         return "redirect:meals";
     }
